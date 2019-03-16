@@ -4,63 +4,37 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
-class Right:
-    def __init__(self, pin1, pin2):
+class Moter:
+    def __init__(self, name, pin1, pin2):
         GPIO.setmode(GPIO.BCM)
+        self.name = name
         self.mPin = [pin1, pin2]
         for pin in range(len(self.mPin)):
             GPIO.setup(self.mPin[pin], GPIO.OUT)
 
     def forward(self):
-        print("Right forward")
+        print("{} forward".format(self.name))
         GPIO.output(self.mPin[0], GPIO.HIGH)
         GPIO.output(self.mPin[1], GPIO.LOW)
 
     def back(self):
-        print("Right back")
+        print("{} back".format(self.name))
         GPIO.output(self.mPin[0], GPIO.LOW)
         GPIO.output(self.mPin[1], GPIO.HIGH)
 
     def breake(self):
-        print("Right breake")
+        print("{} breake".format(self.name))
         GPIO.output(self.mPin[0], GPIO.LOW)
         GPIO.output(self.mPin[1], GPIO.LOW)
 
     def cleanup(self):
-        print("Right cleanup")
-        GPIO.cleanup(self.mPin[0])
-        GPIO.cleanup(self.mPin[1])
-
-class Left:
-    def __init__(self, pin1, pin2):
-        GPIO.setmode(GPIO.BCM)
-        self.mPin = [pin1, pin2]
-        for pin in range(len(self.mPin)):
-            GPIO.setup(self.mPin[pin], GPIO.OUT)
-
-    def forward(self):
-        print("Left forward")
-        GPIO.output(self.mPin[0], GPIO.HIGH)
-        GPIO.output(self.mPin[1], GPIO.LOW)
-
-    def back(self):
-        print("Left back")
-        GPIO.output(self.mPin[0], GPIO.LOW)
-        GPIO.output(self.mPin[1], GPIO.HIGH)
-
-    def breake(self):
-        print("Left breake")
-        GPIO.output(self.mPin[0], GPIO.LOW)
-        GPIO.output(self.mPin[1], GPIO.LOW)
-
-    def cleanup(self):
-        print("Left cleanup")
+        print("{} cleanup".format(self.name))
         GPIO.cleanup(self.mPin[0])
         GPIO.cleanup(self.mPin[1])        
 
 if __name__ == '__main__':
-    right = Right(20, 21)
-    left = Left(4, 17)
+    right = Moter("Right", 20, 21)
+    left = Moter("Left", 4, 17)
     try:
         while True:
             print("right forward")

@@ -6,11 +6,11 @@ import json
 import SimpleHTTPServer
 import BaseHTTPServer
 
-from moterdriver import Right, Left
+from driver import Moter
 from time import sleep
 
-g_right = Right(20, 21)
-g_left = Left(4, 17)
+g_right = Moter("Rgith", 20, 21)
+g_left = Moter("Left", 4, 17)
 
 def message_handle(message):
     if message['right'] == 'forward':
@@ -68,7 +68,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
 
 def importargs():
-    parser = argparse.ArgumentParser("This is the simple server")
+    parser = argparse.ArgumentParser("Processing CAM COMTROLLER server")
 
     parser.add_argument('--host', '-H', required=False, default='localhost')
     parser.add_argument('--port', '-P', required=False, type=int, default=8080)

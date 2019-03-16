@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
+import argparse
 import json
 import requests
 
@@ -27,7 +28,15 @@ def getch():
 def main():
     print("Welcome to CAM CONTROLLER!!")
 
-    url = "http://192.168.11.9:8080"
+    parser = argparse.ArgumentParser("Processing target host host")
+
+    parser.add_argument('--host', '-H', required=False, default='localhost')
+    parser.add_argument('--port', '-P', required=False, type=int, default=8080)
+
+    args = parser.parse_args()
+
+    url = "http://" + str(args.host) + ":" + str(args.port)
+    print(url)
     response = None
 
     headers = {'content-type': 'application/json'}
