@@ -9,23 +9,23 @@ import BaseHTTPServer
 from driver import Moter
 from time import sleep
 
-g_right = Moter("Rgith", 20, 21)
-g_left = Moter("Left", 4, 17)
+left = Moter("Left", 20, 21)
+right= Moter("Right", 4, 17)
 
 def message_handle(message):
     if message['right'] == 'forward':
-        g_right.forward()
+        right.forward()
     elif message['right'] == 'back':
-        g_right.back()
+        right.back()
     elif message['right'] == 'breake':
-        g_right.breake()
+        right.breake()
 
     if message['left'] == 'forward':
-        g_left.forward()
+        left.forward()
     elif message['left'] == 'back':
-        g_left.back()
+        left.back()
     elif message['left'] == 'breake':
-        g_left.breake()
+        left.breake()
 
 
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
@@ -87,13 +87,13 @@ def run(server_class=BaseHTTPServer.HTTPServer, handler_class=MyHandler, server_
     except Exception as e:
         print(str(e))
     finally:
-        g_right.cleanup()
-        g_left.cleanup()
+        left.cleanup()
+        right.cleanup()
         print("\nexit program")
 
 def main():
-    g_right.breake()
-    g_left.breake()
+    right.breake()
+    left.breake()
     host, port = importargs()
     run(server_name=host, port=port)
 
