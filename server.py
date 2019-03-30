@@ -17,68 +17,48 @@ def message_handle(message):
         right.forward()
     elif message['right'] == 'back':
         right.back()
-    elif message['right'] == 'breake':
-        right.breake()
-
+    elif message['right'] == 'brake':
+        right.brake()
     if message['left'] == 'forward':
         left.forward()
     elif message['left'] == 'back':
         left.back()
-    elif message['left'] == 'breake':
-        left.breake()
+    elif message['left'] == 'brake':
+        left.brake()
 
-
-class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
-    """
-    Received the request as json, send the response as json
-    please you edit the your processing
-    """
+class HTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_POST(self):
         try:
             content_len=int(self.headers.get('content-length'))
             request = json.loads(self.rfile.read(content_len).decode('utf-8'))
-
             message_handle(request)
-            
-            response = { 'status' : 200,
-                         'result' : { 'hoge' : 100,
-                                      'bar' : 'bar' }
-                        }
+            response = {'status':200}
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
             responseBody = json.dumps(response)
-
             self.wfile.write(responseBody.encode('utf-8'))
         except Exception as e:
-            print("An error occured")
-            print("The information of error is as following")
+            print("ERROR!!")
             print(type(e))
             print(e.args)
             print(e)
             response = { 'status' : 500,
-                         'msg' : 'An error occured' }
-
+                         'msg' : 'Failed to handle message.' }
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
             responseBody = json.dumps(response)
-
             self.wfile.write(responseBody.encode('utf-8'))
-
 
 def importargs():
     parser = argparse.ArgumentParser("Processing CAM COMTROLLER server")
-
-    parser.add_argument('--host', '-H', required=False, default='localhost')
-    parser.add_argument('--port', '-P', required=False, type=int, default=8080)
-
+    parser.add_argument('--server_name', '-s', required=False, default='localhost')
+    parser.add_argument('--port', '-p', required=False, type=int, default=8080)
     args = parser.parse_args()
+    return args.server_name, args.port
 
-    return args.host, args.port
-
-def run(server_class=BaseHTTPServer.HTTPServer, handler_class=MyHandler, server_name='localhost', port=8080):
-
+def run(server_class=BaseHTTPServer.HTTPServer, handler_class=HTTPHandler, server_name='localhost', port=8080):
     try:
         server = server_class((server_name, port), handler_class)
         server.serve_forever()
@@ -92,10 +72,10 @@ def run(server_class=BaseHTTPServer.HTTPServer, handler_class=MyHandler, server_
         print("\nexit program")
 
 def main():
-    right.breake()
-    left.breake()
-    host, port = importargs()
-    run(server_name=host, port=port)
+    right.brake()
+    left.brake()
+    server_name, port = importargs()
+    run(server_name=server_name, port=port)
 
 if __name__ == '__main__':
     main()
