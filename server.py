@@ -10,7 +10,7 @@ from driver import Moter
 from time import sleep
 
 left = Moter("Left", 20, 21)
-right= Moter("Right", 4, 17)
+right= Moter("Right", 27, 22)
 
 def message_handle(message):
     if message['right'] == 'forward':
